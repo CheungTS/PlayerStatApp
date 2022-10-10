@@ -16,7 +16,7 @@ as I am a former-professional fps video game player, which makes this project is
 - generate play against stats
 
 As user:
-- I want to be able to select a team and add new player.
-- I want to be able to create a team and add it to team list.
+- I want to be able to create a team and add new player.
 - I want to be able to select an individual player and check stats of the player.
 - I want to be able to select a team and check the team stats.
+- I want to be able to add a game and update the stats.
