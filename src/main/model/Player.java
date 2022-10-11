@@ -2,39 +2,52 @@ package model;
 
 // Represents a player having stats for personal performance.
 public class Player {
+    private String name;
     private int totalKills;
     private int totalDeath;
     private int roundsPlayed;
-    private int headshots;
     private int totalDamage;
 
     // Default constructor
-    public Player() {
+    public Player(String name) {
+        this.name = name;
         this.totalKills = 0;
         this.totalDeath = 0;
         this.roundsPlayed = 0;
-        this.headshots = 0;
         this.totalDamage = 0;
     }
 
-    public Player(int totalKills, int totalDeath, int roundsPlayed, int headshots, int totalDamage) {
+    public Player(String name,int totalKills, int totalDeath, int roundsPlayed, int totalDamage) {
+        this.name = name;
         this.totalKills = totalKills;
         this.totalDeath = totalDeath;
         this.roundsPlayed = roundsPlayed;
-        this.headshots = headshots;
         this.totalDamage = totalDamage;
     }
 
     /*
+     * EFFECTS: return player stats as a string
+     */
+    public String getStats() {
+        String s = "Kills: " + totalKills + ", Death: " + totalDeath;
+        s += ", Rounds: " + roundsPlayed + ", Damage: " + totalDamage;
+        return s;
+    }
+
+    /*
+     * REQUIRES: totalDeath, roundsPlayed >= 0
      * MODIFIES: this
      * EFFECTS: all data are added to the player's data and updated
      */
-    public void addStats(int totalKills, int totalDeath, int roundsPlayed, int headshots, int totalDamage) {
+    public boolean addStats(int totalKills, int totalDeath, int roundsPlayed, int totalDamage) {
+        if (totalDeath < 0 || roundsPlayed < 0) {
+            return false;
+        }
         this.totalKills += totalKills;
         this.totalDeath += totalDeath;
         this.roundsPlayed += roundsPlayed;
-        this.headshots += headshots;
         this.totalDamage += totalDamage;
+        return true;
     }
 
     /*
@@ -53,12 +66,8 @@ public class Player {
         return (double)totalKills / (double)totalDeath;
     }
 
-    /*
-     * EFFECTS: Compute the headshot percentage
-     * 			and the percentage is returned
-     */
-    public double getHeadshotPercent() {
-        return (double)headshots / (double)totalKills * 100;
+    public String getName() {
+        return name;
     }
 
     public int getTotalKills() {
@@ -77,7 +86,4 @@ public class Player {
         return totalDeath;
     }
 
-    public int getHeadshots() {
-        return headshots;
-    }
 }
