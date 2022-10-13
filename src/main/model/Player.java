@@ -51,18 +51,26 @@ public class Player {
     }
 
     /*
+     * REQUIRES: roundsPlayed != 0
      * EFFECTS: Compute the average per round
      * 			and an ADR is returned
      */
     public double getADR() {
+        if (roundsPlayed == 0) {
+            return 0;
+        }
         return (double)totalDamage / (double)roundsPlayed;
     }
 
     /*
+     * REQUIRES: totalDeath != 0
      * EFFECTS: Compute the kills and death ratio
      * 			and a KD is returned
      */
     public double getKD() {
+        if (totalDeath == 0) {
+            return 0;
+        }
         return (double)totalKills / (double)totalDeath;
     }
 

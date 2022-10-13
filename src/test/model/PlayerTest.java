@@ -38,11 +38,13 @@ class PlayerTest {
 
     @Test
     void testGetAdr() {
+        assertEquals(testPlayer.getADR(),0);
         assertEquals(testPlayer1.getADR(), (double)testPlayer1.getTotalDamage()/testPlayer1.getRoundsPlayed());
     }
 
     @Test
     void testGetKD() {
+        assertEquals(testPlayer.getKD(),0);
         assertEquals(testPlayer1.getKD(), (double)testPlayer1.getTotalKills()/testPlayer1.getTotalDeath());
     }
 }
