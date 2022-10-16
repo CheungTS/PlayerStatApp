@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TeamTest {
     private Team team1;
     private Team team2;
+    private Team team3;
     private Player player1;
     private Player player2;
     private Player player3;
@@ -16,10 +17,15 @@ public class TeamTest {
     void runBefore() {
         team1 = new Team();
         team2 = new Team();
+        team3 = new Team();
         player1 = new Player("a");
         player2 = new Player("b");
         player3 = new Player("c");
         player4 = new Player("d",100,100,100,100);
+
+        team3.addPlayer(player1);
+        team3.addPlayer(player2);
+        team3.addPlayer(player4);
     }
 
     @Test
@@ -77,24 +83,24 @@ public class TeamTest {
 
     @Test
     void testGetName() {
-        assertEquals(player1.getName(), "a");
-        assertEquals(player2.getName(), "b");
+        assertEquals(team3.getPlayer(0).getName(), "a");
+        assertEquals(team3.getPlayer(1).getName(), "b");
     }
 
     @Test
     void testGetStats() {
-        assertEquals(player4.getStats(), "Kills: 100, Death: 100, Rounds: 100, Damage: 100");
+        assertEquals(team3.getPlayer(2).getStats(), "Kills: 100, Death: 100, Rounds: 100, Damage: 100");
     }
 
     @Test
     void testGetAdr() {
-        assertEquals(player1.getADR(),0);
-        assertEquals(player4.getADR(), (double)player4.getTotalDamage()/player4.getRoundsPlayed());
+        assertEquals(team3.getPlayer(0).getADR(),0);
+        assertEquals(team3.getPlayer(2).getADR(), (double)team3.getPlayer(2).getTotalDamage()/team3.getPlayer(2).getRoundsPlayed());
     }
 
     @Test
     void testGetKD() {
-        assertEquals(player1.getKD(),0);
-        assertEquals(player4.getKD(), (double)player4.getTotalKills()/player4.getTotalDeath());
+        assertEquals(team3.getPlayer(0).getKD(),0);
+        assertEquals(team3.getPlayer(2).getKD(), (double)team3.getPlayer(2).getTotalKills()/team3.getPlayer(2).getTotalDeath());
     }
 }

@@ -2,9 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-//TODO indexOf, override output, iterating over an arraylist
-//TODO design console ui
-
 // Represents a team which contains players.
 public class Team {
     private static final int MAXPLAYER = 3;
@@ -15,6 +12,13 @@ public class Team {
     public Team() {
         this.teamKD = 0;
         this.teamADR = 0;
+    }
+
+    /*
+     * EFFECTS: Return a player
+     */
+    public Player getPlayer(int i) {
+        return team.get(i);
     }
 
     /*
