@@ -22,6 +22,7 @@ class PlayerTest {
     void testAddStats() {
         assertFalse(testPlayer.addStats(100,-1,100,1000));
         assertFalse(testPlayer.addStats(100,-1,-1,1000));
+        assertFalse(testPlayer.addStats(100,100,-1,1000));
 
         assertTrue(testPlayer.addStats(100,100,100,1000));
         assertEquals(testPlayer.getTotalKills() , 100);
