@@ -15,3 +15,5 @@ As user:
 - I want to be able to select an individual player and check stats of the player.
 - I want to be able to select a team and check the team stats.
 - I want to be able to remove a player from the team.
+- I want to be able to save my teams to file.
+- I want to be able to be able to load my teams list from file.
