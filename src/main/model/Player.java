@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a player having stats for personal performance.
-public class Player {
+public class Player implements Writable {
     private String name;
     private int totalKills;
     private int totalDeath;
@@ -94,4 +97,14 @@ public class Player {
         return totalDeath;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("kills", totalKills);
+        json.put("death", totalDeath);
+        json.put("rounds", roundsPlayed);
+        json.put("damage", totalDamage);
+        return json;
+    }
 }

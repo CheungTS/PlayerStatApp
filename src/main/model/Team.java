@@ -1,11 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // Represents a team which contains players.
-public class Team {
+public class Team implements Writable {
     private static final int MAXPLAYER = 3;
-    private ArrayList<Player> team = new ArrayList<>();
+    private ArrayList<Player> member = new ArrayList<>();
     private double teamKD;
     private double teamADR;
 
@@ -15,10 +19,17 @@ public class Team {
     }
 
     /*
+     * EFFECTS: Return number of players in the team
+     */
+    public int size() {
+        return member.size();
+    }
+
+    /*
      * EFFECTS: Return a player
      */
     public Player getPlayer(int i) {
-        return team.get(i);
+        return member.get(i);
     }
 
     /*
@@ -28,17 +39,17 @@ public class Team {
     public void update() {
         double totalADR = 0;
         double totalKD = 0;
-        if (team.size() == 0) {
+        if (member.size() == 0) {
             this.teamADR = 0;
             this.teamKD = 0;
             return;
         }
-        for (int i = 0; i < team.size(); i++) {
-            totalADR += team.get(i).getADR();
-            totalKD += team.get(i).getKD();
+        for (int i = 0; i < member.size(); i++) {
+            totalADR += member.get(i).getADR();
+            totalKD += member.get(i).getKD();
         }
-        this.teamADR = totalADR / team.size();
-        this.teamKD = totalKD / team.size();
+        this.teamADR = totalADR / member.size();
+        this.teamKD = totalKD / member.size();
     }
 
     /*
@@ -49,11 +60,11 @@ public class Team {
      *          return true if player added
      */
     public boolean addPlayer(Player p) {
-        if (team.contains(p)) {
+        if (member.contains(p)) {
             return false;
         }
-        if (team.size() < MAXPLAYER) {
-            team.add(p);
+        if (member.size() < MAXPLAYER) {
+            member.add(p);
             update();
             return true;
         }
@@ -68,11 +79,11 @@ public class Team {
      *          return true if player is removed successfully
      */
     public boolean removePlayer(Player p) {
-        if (team.isEmpty()) {
+        if (member.isEmpty()) {
             return false;
         }
-        if (team.contains(p)) {
-            team.remove(p);
+        if (member.contains(p)) {
+            member.remove(p);
             update();
             return true;
         } else {
@@ -88,15 +99,23 @@ public class Team {
         return teamADR;
     }
 
-    /*
-     * REQUIRES: list.size() > 0
-     * MODIFIES: this
-     * EFFECTS: a player will be replaced by new player
-     *          return true if player is replaced successfully
-     */
-    /*
-    public boolean replacePlayer(Player p){
-        return false; //stub (list.set(index, element)
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("KD", teamKD);
+        json.put("ADR", teamADR);
+        json.put("players", playersToJson());
+        return json;
     }
-     */
+
+    // EFFECTS: returns players in this team as a JSON array
+    private JSONArray playersToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Player t : member) {
+            jsonArray.put(t.toJson());
+        }
+
+        return jsonArray;
+    }
 }

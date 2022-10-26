@@ -29,6 +29,13 @@ public class TeamTest {
     }
 
     @Test
+    void testSize() {
+        assertEquals(0,team1.size());
+        assertTrue(team1.addPlayer(player1));
+        assertEquals(1,team1.size());
+    }
+
+    @Test
     void tesAddPlayer() {
         assertTrue(team1.addPlayer(player1));
         assertFalse(team1.addPlayer(player1));
