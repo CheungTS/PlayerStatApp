@@ -99,6 +99,8 @@ public class Team implements Writable {
         return teamADR;
     }
 
+
+    // EFFECTS: Converts team to json object and return it
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

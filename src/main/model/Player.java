@@ -97,6 +97,9 @@ public class Player implements Writable {
         return totalDeath;
     }
 
+    /*
+     * EFFECTS: Converts player to json object and return it
+     */
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
