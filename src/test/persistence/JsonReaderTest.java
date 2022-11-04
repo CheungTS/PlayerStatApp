@@ -23,7 +23,7 @@ public class JsonReaderTest extends JsonTest{
 
     @Test
     void testReaderEmptyWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testReaderEmptyWorkRoom.json");
+        JsonReader reader = new JsonReader("./data/testWriterEmptyWorkroom.json");
         try {
             Team t = reader.read();
             assertEquals(0, t.size());
