@@ -1,0 +1,11 @@
+{
+    "players": [{
+        "kills": 50,
+        "damage": 50,
+        "death": 50,
+        "name": "b",
+        "rounds": 50
+    }],
+    "KD": 1,
+    "ADR": 1
+}
