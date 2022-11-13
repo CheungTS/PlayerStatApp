@@ -4,7 +4,6 @@ import model.*;
 
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -22,8 +21,8 @@ public class JsonReaderTest extends JsonTest{
     }
 
     @Test
-    void testReaderEmptyWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testWriterEmptyWorkroom.json");
+    void testReaderEmptyTeam() {
+        JsonReader reader = new JsonReader("./data/testWriterEmptyTeam.json");
         try {
             Team t = reader.read();
             assertEquals(0, t.size());

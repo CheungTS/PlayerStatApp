@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import ui.GuiApp;
+
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
 public class ListPlayer extends JPanel
@@ -21,14 +23,16 @@ public class ListPlayer extends JPanel
     private JButton removeButton;
     private JTextField playersName;
 
+    private App app;
+
     @SuppressWarnings("checkstyle:MethodLength")
     public ListPlayer() {
         super(new BorderLayout());
 
+        //app = new GuiApp();
+
         listModel = new DefaultListModel();
-        listModel.addElement("a");
-        listModel.addElement("b");
-        listModel.addElement("c");
+        //listModel.addElement("a");
 
         //Create the list and put it in a scroll pane.
         list = new JList(listModel);
