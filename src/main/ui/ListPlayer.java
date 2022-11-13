@@ -21,13 +21,13 @@ public class ListPlayer extends JPanel
     private JButton removeButton;
     private JTextField playersName;
 
-    private App app;
+    private GuiApp app;
 
     @SuppressWarnings("checkstyle:MethodLength")
     public ListPlayer() {
         super(new BorderLayout());
 
-        //app = new GuiApp();
+        app = new GuiApp();
 
         listModel = new DefaultListModel();
         //listModel.addElement("a");
@@ -49,12 +49,11 @@ public class ListPlayer extends JPanel
         removeButton = new JButton(removePlayer);
         removeButton.setActionCommand(removePlayer);
         removeButton.addActionListener(new RemoveListener());
+        removeButton.setEnabled(false);
 
         playersName = new JTextField(10);
         playersName.addActionListener(createListener);
         playersName.getDocument().addDocumentListener(createListener);
-        String name = listModel.getElementAt(
-                list.getSelectedIndex()).toString();
 
         //Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();
@@ -77,6 +76,10 @@ public class ListPlayer extends JPanel
             //This method can be called only if
             //there's a valid selection
             //so go ahead and remove whatever's selected.
+
+            String name = (String)list.getSelectedValue();
+            app.removePlayer(name);
+
             int index = list.getSelectedIndex();
             listModel.remove(index);
 
@@ -94,6 +97,8 @@ public class ListPlayer extends JPanel
                 list.setSelectedIndex(index);
                 list.ensureIndexIsVisible(index);
             }
+
+
         }
     }
 
@@ -118,6 +123,7 @@ public class ListPlayer extends JPanel
                 return;
             }
 
+
             int index = list.getSelectedIndex(); //get selected index
             if (index == -1) { //no selection, so insert at beginning
                 index = 0;
@@ -125,9 +131,11 @@ public class ListPlayer extends JPanel
                 index++;
             }
 
-            listModel.insertElementAt(playersName.getText(), index);
+            listModel.insertElementAt(name, index);
             //If we just wanted to add to the end, we'd do this:
             //listModel.addElement(employeeName.getText());
+
+            app.createPlayer(name);
 
             //Reset the text field.
             playersName.requestFocusInWindow();
