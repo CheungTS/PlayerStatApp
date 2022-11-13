@@ -9,8 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import ui.GuiApp;
-
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
 public class ListPlayer extends JPanel
