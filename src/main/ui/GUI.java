@@ -11,7 +11,10 @@ import java.awt.event.ActionListener;
 
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
-public class ListPlayer extends JPanel
+//TODO load and save function/button
+//TODO a visual component (displaying an image in a splash screen when your application starts)
+//TODO Add a section at the end of your README.md file
+public class GUI extends JPanel
         implements ListSelectionListener {
     private JList list;
 
@@ -26,6 +29,8 @@ public class ListPlayer extends JPanel
     private JButton addButton2;
     private JButton removeButton1;
     private JButton removeButton2;
+    private JButton saveButton;
+    private JButton loadButton;
     private JTextField playersName;
 
     private TeamPanel team1Pane;
@@ -34,7 +39,7 @@ public class ListPlayer extends JPanel
     private GuiApp app;
 
     @SuppressWarnings("checkstyle:MethodLength")
-    public ListPlayer() {
+    public GUI() {
         super(new BorderLayout());
 
         app = new GuiApp();
@@ -83,6 +88,13 @@ public class ListPlayer extends JPanel
         removeButton1.setEnabled(false);
         removeButton2.setEnabled(false);
 
+        saveButton = new JButton("Save");
+        saveButton.setActionCommand("Save");
+        //saveButton.addActionListener(new saveListener());
+        loadButton = new JButton("Load");
+        loadButton.setActionCommand("Load");
+        //loadButton.addActionListener(new loadListener());
+
         //Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane,
@@ -109,7 +121,7 @@ public class ListPlayer extends JPanel
 
         //Create a panel displays players
         JPanel playerPane = new JPanel();
-        playerPane.setLayout(new BoxLayout(playerPane,BoxLayout.PAGE_AXIS));
+        playerPane.setLayout(new BoxLayout(playerPane,BoxLayout.Y_AXIS));
         playerPane.add(listScrollPane);
         playerPane.add(buttonPane);
 
@@ -117,11 +129,17 @@ public class ListPlayer extends JPanel
         team1Pane = new TeamPanel("Team1");
         team2Pane = new TeamPanel("Team2");
         JPanel teamPane = new JPanel();
-
         teamPane.setLayout(new BoxLayout(teamPane, BoxLayout.Y_AXIS));
         teamPane.add(team1Pane);
         teamPane.add(team2Pane);
 
+        // Save and load Panel
+        JPanel savePane = new JPanel();
+        savePane.setLayout(new BoxLayout(savePane,BoxLayout.X_AXIS));
+        savePane.add(saveButton);
+        savePane.add(loadButton);
+
+        add(savePane, BorderLayout.PAGE_START);
         add(playerPane,BorderLayout.LINE_START);
         add(teamButton, BorderLayout.CENTER);
         add(teamPane, BorderLayout.LINE_END);
@@ -199,8 +217,6 @@ public class ListPlayer extends JPanel
 
         }
     }
-
-
 
     //This listener is shared by the text field and the hire button.
     class CreateListener implements ActionListener, DocumentListener {
@@ -287,6 +303,7 @@ public class ListPlayer extends JPanel
     }
 
     //This method is required by ListSelectionListener.
+    @SuppressWarnings("checkstyle:MethodLength")
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
             if (list.getSelectedIndex() == -1) {
@@ -317,18 +334,14 @@ public class ListPlayer extends JPanel
         }
     }
 
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
-     */
+    // Create the GUI and show it.
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("ListDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.
-        JComponent newContentPane = new ListPlayer();
+        JComponent newContentPane = new GUI();
         newContentPane.setOpaque(true); //content panes must be opaque
         frame.setContentPane(newContentPane);
 
@@ -336,7 +349,6 @@ public class ListPlayer extends JPanel
         frame.pack();
         frame.setVisible(true);
     }
-
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
@@ -347,6 +359,5 @@ public class ListPlayer extends JPanel
             }
         });
     }
-
 
 }
