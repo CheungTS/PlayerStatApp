@@ -79,6 +79,7 @@ public class GuiApp {
         for (Player p : playerList) {
             if (p.getName().equals(name)) {
                 playerList.remove(p);
+                return;
             }
         }
     }

@@ -14,10 +14,12 @@ import java.awt.event.ActionListener;
 public class ListPlayer extends JPanel
         implements ListSelectionListener {
     private JList list;
+
     private DefaultListModel listModel;
 
     private static final String createPlayer = "Create Player";
     private static final String removePlayer = "Remove Player";
+    private static final String addPlayer = "Remove Player";
     private JButton removeButton;
     private JTextField playersName;
 
@@ -29,10 +31,10 @@ public class ListPlayer extends JPanel
 
         app = new GuiApp();
 
+        // Construct player UI
         listModel = new DefaultListModel();
-        //listModel.addElement("a");
 
-        //Create the list and put it in a scroll pane.
+        //Create the player list and put it in a scroll pane.
         list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(0);
@@ -54,6 +56,7 @@ public class ListPlayer extends JPanel
         playersName = new JTextField(10);
         playersName.addActionListener(createListener);
         playersName.getDocument().addDocumentListener(createListener);
+
 
         //Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();
@@ -97,7 +100,6 @@ public class ListPlayer extends JPanel
                 list.setSelectedIndex(index);
                 list.ensureIndexIsVisible(index);
             }
-
 
         }
     }
