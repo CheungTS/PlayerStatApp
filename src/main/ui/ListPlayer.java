@@ -28,8 +28,8 @@ public class ListPlayer extends JPanel
     private JButton removeButton2;
     private JTextField playersName;
 
-    private ListTeam team1Pane;
-    private ListTeam team2Pane;
+    private TeamPanel team1Pane;
+    private TeamPanel team2Pane;
 
     private GuiApp app;
 
@@ -76,10 +76,12 @@ public class ListPlayer extends JPanel
 
         removeButton1 = new JButton(removePlayer);
         removeButton1.setActionCommand(removePlayer);
-        //removeButton1.addActionListener(new RemoveListener());
+        removeButton1.addActionListener(new RemoveListener());
         removeButton2 = new JButton(removePlayer);
         removeButton2.setActionCommand(removePlayer);
-        //removeButton1.addActionListener(new RemoveListener());
+        removeButton2.addActionListener(new RemoveListener());
+        removeButton1.setEnabled(false);
+        removeButton2.setEnabled(false);
 
         //Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();
@@ -112,8 +114,8 @@ public class ListPlayer extends JPanel
         playerPane.add(buttonPane);
 
         //Create a panel displays teams
-        team1Pane = new ListTeam();
-        team2Pane = new ListTeam();
+        team1Pane = new TeamPanel("Team1");
+        team2Pane = new TeamPanel("Team2");
         JPanel teamPane = new JPanel();
 
         teamPane.setLayout(new BoxLayout(teamPane, BoxLayout.Y_AXIS));
@@ -123,6 +125,48 @@ public class ListPlayer extends JPanel
         add(playerPane,BorderLayout.LINE_START);
         add(teamButton, BorderLayout.CENTER);
         add(teamPane, BorderLayout.LINE_END);
+    }
+
+    class RemoveListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String name;
+            if (e.getSource() == removeButton1) {
+                name = team1Pane.removePlayerFromTeam();
+                app.removePlayerFromTeam(name,1);
+            } else {
+                name = team2Pane.removePlayerFromTeam();
+                app.removePlayerFromTeam(name,2);
+            }
+
+            if (team1Pane.teamIsEmpty()) {
+                removeButton1.setEnabled(false);
+            }
+            if (team2Pane.teamIsEmpty()) {
+                removeButton2.setEnabled(false);
+            }
+        }
+    }
+
+    class AddListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            String name = (String)list.getSelectedValue();
+            if (e.getSource() == addButton1) {
+                app.addPlayerToTeam(name,1);
+                team1Pane.addPlayerToTeam(name);
+                removeButton1.setEnabled(true);
+                if (team1Pane.teamIsFull()) {
+                    addButton1.setEnabled(false);
+                }
+            } else {
+                app.addPlayerToTeam(name,2);
+                team2Pane.addPlayerToTeam(name);
+                removeButton2.setEnabled(true);
+                if (team2Pane.teamIsFull()) {
+                    addButton2.setEnabled(false);
+                }
+            }
+        }
     }
 
     class DeleteListener implements ActionListener {
@@ -156,26 +200,7 @@ public class ListPlayer extends JPanel
         }
     }
 
-    class AddListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
 
-            String name = (String)list.getSelectedValue();
-            if (e.getSource() == addButton1) {
-                app.addPlayerToTeam(name,1);
-                team1Pane.addPlayerToTeam(name);
-                if (team1Pane.teamIsFull()) {
-                    addButton1.setEnabled(false);
-                }
-            } else {
-                app.addPlayerToTeam(name,2);
-                team2Pane.addPlayerToTeam(name);
-                if (team2Pane.teamIsFull()) {
-                    addButton2.setEnabled(false);
-                }
-            }
-
-        }
-    }
 
     //This listener is shared by the text field and the hire button.
     class CreateListener implements ActionListener, DocumentListener {
@@ -264,13 +289,13 @@ public class ListPlayer extends JPanel
     //This method is required by ListSelectionListener.
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
-
             if (list.getSelectedIndex() == -1) {
                 //No selection, disable removePlayer button.
                 deleteButton.setEnabled(false);
                 addButton1.setEnabled(false);
                 addButton2.setEnabled(false);
-
+                removeButton1.setEnabled(false);
+                removeButton2.setEnabled(false);
             } else {
                 //Selection, enable the removePlayer button.
                 deleteButton.setEnabled(true);
@@ -278,12 +303,17 @@ public class ListPlayer extends JPanel
                 addButton2.setEnabled(true);
             }
         }
-
         if (!team1Pane.teamIsFull()) {
             addButton1.setEnabled(true);
         }
         if (!team2Pane.teamIsFull()) {
             addButton2.setEnabled(true);
+        }
+        if (!team1Pane.teamIsEmpty()) {
+            removeButton1.setEnabled(true);
+        }
+        if (!team2Pane.teamIsEmpty()) {
+            removeButton2.setEnabled(true);
         }
     }
 
