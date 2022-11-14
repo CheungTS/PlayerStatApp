@@ -65,6 +65,8 @@ public class GuiApp {
             tmp = team2;
         }
 
+        System.out.println("Add player to team" + teamIndex);
+
         for (Player p : playerList) {
             if (p.getName().equals(name)) {
                 tmp.addPlayer(p);
@@ -88,6 +90,8 @@ public class GuiApp {
     // EFFECTS: remove player from a team
     public void removePlayerFromTeam(String name, int teamIndex) {
 
+        System.out.println("remove player from team" + teamIndex);
+
         for (Player p : playerList) {
             if (p.getName().equals(name)) {
                 if (team1.removePlayer(p)) {
@@ -102,11 +106,13 @@ public class GuiApp {
     }
 
     public void save() {
+        System.out.println("saving");
         savePlayers();
         saveTeams();
     }
 
     public void load() {
+        System.out.println("loading");
         loadPlayers();
         loadTeams();
     }
