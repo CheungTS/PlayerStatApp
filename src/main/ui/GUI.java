@@ -46,19 +46,19 @@ public class GUI extends JPanel implements ListSelectionListener {
     private JPanel teamPane;
     private GuiApp app;
 
-
-
     // Constructs the layouts
     public GUI() {
         super(new BorderLayout());
         app = new GuiApp();
 
+        // set up the components
         setList();
         setCreateButton();
         setDeleteButton();
         setAddButton();
         setRemoveButton();
         setSaveLoadButton();
+
         //Create a panel that uses BoxLayout.
         setButtonPane();
         setTeamButtonPane();
@@ -81,6 +81,7 @@ public class GUI extends JPanel implements ListSelectionListener {
         add(teamPane, BorderLayout.LINE_END);
     }
 
+    // methods that set up the buttons and panels
     private void setList() {
         listModel = new DefaultListModel();
 
@@ -237,6 +238,7 @@ public class GUI extends JPanel implements ListSelectionListener {
         }
     }
 
+    // Update GUI after loading from files
     public void updateGUI() {
         String name;
         for (Player p: app.getPlayerList()) {
@@ -439,6 +441,7 @@ public class GUI extends JPanel implements ListSelectionListener {
         }
     }
 
+    // Set some of the buttons false as necessary
     private void setButtonFalse() {
         deleteButton.setEnabled(false);
         addButton1.setEnabled(false);

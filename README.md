@@ -9,7 +9,6 @@ analyze and improve their performance.
 I realized the stats analyzation is very important for improving players performance 
 as I am a former-professional fps video game player, which makes this project is useful.
 
-
 As user:
 - I want to be able to create players and add players to the team.
 - I want to be able to select an individual player and check stats of the player.

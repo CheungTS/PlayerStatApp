@@ -15,6 +15,7 @@ public class TeamPanel extends JPanel
     private static final int MAX_MEMBER = 3;
     private JTextArea outputTeam;
 
+    // Construct the components that display the info of team
     public TeamPanel(String name) {
         super(new BorderLayout());
 
@@ -99,6 +100,7 @@ public class TeamPanel extends JPanel
         teamList.ensureIndexIsVisible(index);
     }
 
+    // Return true if the player is already in the team
     protected boolean alreadyInList(String name) {
         return listModel.contains(name);
     }
