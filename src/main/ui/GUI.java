@@ -9,9 +9,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.io.File;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import model.*;
@@ -19,9 +16,8 @@ import model.*;
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
 
-//TODO Add a section at the end of your README.md file
-public class GUI extends JPanel
-        implements ListSelectionListener {
+// This class is for constructing the GUI of the application and showing the GUI.
+public class GUI extends JPanel implements ListSelectionListener {
     private JList list;
 
     private DefaultListModel listModel;
@@ -30,6 +26,7 @@ public class GUI extends JPanel
     private static final String deletePlayer = "Delete Player";
     private static final String addPlayer = "Add Player   ";
     private static final String removePlayer = "Remove Player";
+    private JButton createButton;
     private JButton deleteButton;
     private JButton addButton1;
     private JButton addButton2;
@@ -39,18 +36,52 @@ public class GUI extends JPanel
     private JButton loadButton;
     private JTextField playersName;
 
+    private JScrollPane listScrollPane;
+
     private TeamPanel team1Pane;
     private TeamPanel team2Pane;
-
+    private JPanel buttonPane;
+    private JPanel teamButton;
+    private JPanel playerPane;
+    private JPanel teamPane;
     private GuiApp app;
 
-    @SuppressWarnings("checkstyle:MethodLength")
+
+
+    // Constructs the layouts
     public GUI() {
         super(new BorderLayout());
-
         app = new GuiApp();
 
-        // Construct player UI
+        setList();
+        setCreateButton();
+        setDeleteButton();
+        setAddButton();
+        setRemoveButton();
+        setSaveLoadButton();
+        //Create a panel that uses BoxLayout.
+        setButtonPane();
+        setTeamButtonPane();
+
+        //Create a panel displays players
+        setPlayerPane();
+
+        //Create a panel displays teams
+        setTeamPane();
+
+        // Save and load Panel
+        JPanel savePane = new JPanel();
+        savePane.setLayout(new BoxLayout(savePane,BoxLayout.X_AXIS));
+        savePane.add(saveButton);
+        savePane.add(loadButton);
+
+        add(savePane, BorderLayout.PAGE_START);
+        add(playerPane,BorderLayout.LINE_START);
+        add(teamButton, BorderLayout.CENTER);
+        add(teamPane, BorderLayout.LINE_END);
+    }
+
+    private void setList() {
         listModel = new DefaultListModel();
 
         //Create the player list and put it in a scroll pane.
@@ -59,9 +90,11 @@ public class GUI extends JPanel
         list.setSelectedIndex(0);
         list.addListSelectionListener(this);
         list.setVisibleRowCount(8);
-        JScrollPane listScrollPane = new JScrollPane(list);
+        listScrollPane = new JScrollPane(list);
+    }
 
-        JButton createButton = new JButton(createPlayer);
+    private void setCreateButton() {
+        createButton = new JButton(createPlayer);
         CreateListener createListener = new CreateListener(createButton);
         createButton.setActionCommand(createPlayer);
         createButton.addActionListener(createListener);
@@ -72,7 +105,12 @@ public class GUI extends JPanel
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        playersName = new JTextField(10);
+        playersName.addActionListener(createListener);
+        playersName.getDocument().addDocumentListener(createListener);
+    }
 
+    private void setDeleteButton() {
         deleteButton = new JButton(deletePlayer);
         deleteButton.setActionCommand(deletePlayer);
         deleteButton.addActionListener(new DeleteListener());
@@ -83,12 +121,9 @@ public class GUI extends JPanel
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
 
-
-        playersName = new JTextField(10);
-        playersName.addActionListener(createListener);
-        playersName.getDocument().addDocumentListener(createListener);
-
+    private void setAddButton() {
         addButton1 = new JButton(addPlayer);
         addButton1.setActionCommand(addPlayer);
         addButton1.addActionListener(new AddListener());
@@ -104,7 +139,9 @@ public class GUI extends JPanel
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
 
+    private void setRemoveButton() {
         removeButton1 = new JButton(removePlayer);
         removeButton1.setActionCommand(removePlayer);
         removeButton1.addActionListener(new RemoveListener());
@@ -113,7 +150,6 @@ public class GUI extends JPanel
         removeButton2.addActionListener(new RemoveListener());
         removeButton1.setEnabled(false);
         removeButton2.setEnabled(false);
-
         try {
             Image img = ImageIO.read(getClass().getResource("images/remove.jpg"));
             removeButton1.setIcon(new ImageIcon(img));
@@ -122,6 +158,9 @@ public class GUI extends JPanel
             System.out.println(ex);
         }
 
+    }
+
+    private void setSaveLoadButton() {
         saveButton = new JButton("Save");
         saveButton.setActionCommand("Save");
         saveButton.addActionListener(new SaveListener());
@@ -141,11 +180,11 @@ public class GUI extends JPanel
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
 
-        //Create a panel that uses BoxLayout.
-        JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new BoxLayout(buttonPane,
-                BoxLayout.LINE_AXIS));
+    private void setButtonPane() {
+        buttonPane = new JPanel();
+        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
         buttonPane.add(deleteButton);
         buttonPane.add(Box.createHorizontalStrut(5));
         buttonPane.add(new JSeparator(SwingConstants.VERTICAL));
@@ -153,8 +192,10 @@ public class GUI extends JPanel
         buttonPane.add(playersName);
         buttonPane.add(createButton);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+    }
 
-        JPanel teamButton = new JPanel();
+    private void setTeamButtonPane() {
+        teamButton = new JPanel();
         teamButton.setLayout(new BoxLayout(teamButton,BoxLayout.PAGE_AXIS));
 
         teamButton.add(Box.createRigidArea(new Dimension(5, 16)));
@@ -165,31 +206,22 @@ public class GUI extends JPanel
         teamButton.add(addButton2);
         teamButton.add(Box.createRigidArea(new Dimension(5, 40)));
         teamButton.add(removeButton2);
+    }
 
-        //Create a panel displays players
-        JPanel playerPane = new JPanel();
+    private void setPlayerPane() {
+        playerPane = new JPanel();
         playerPane.setLayout(new BoxLayout(playerPane,BoxLayout.Y_AXIS));
         playerPane.add(listScrollPane);
         playerPane.add(buttonPane);
+    }
 
-        //Create a panel displays teams
+    private void setTeamPane() {
         team1Pane = new TeamPanel("Team1");
         team2Pane = new TeamPanel("Team2");
-        JPanel teamPane = new JPanel();
+        teamPane = new JPanel();
         teamPane.setLayout(new BoxLayout(teamPane, BoxLayout.Y_AXIS));
         teamPane.add(team1Pane);
         teamPane.add(team2Pane);
-
-        // Save and load Panel
-        JPanel savePane = new JPanel();
-        savePane.setLayout(new BoxLayout(savePane,BoxLayout.X_AXIS));
-        savePane.add(saveButton);
-        savePane.add(loadButton);
-
-        add(savePane, BorderLayout.PAGE_START);
-        add(playerPane,BorderLayout.LINE_START);
-        add(teamButton, BorderLayout.CENTER);
-        add(teamPane, BorderLayout.LINE_END);
     }
 
     class SaveListener implements ActionListener {
@@ -381,16 +413,11 @@ public class GUI extends JPanel
     }
 
     //This method is required by ListSelectionListener.
-    @SuppressWarnings("checkstyle:MethodLength")
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
             if (list.getSelectedIndex() == -1) {
                 //No selection, disable removePlayer button.
-                deleteButton.setEnabled(false);
-                addButton1.setEnabled(false);
-                addButton2.setEnabled(false);
-                removeButton1.setEnabled(false);
-                removeButton2.setEnabled(false);
+                setButtonFalse();
             } else {
                 //Selection, enable the removePlayer button.
                 deleteButton.setEnabled(true);
@@ -410,6 +437,14 @@ public class GUI extends JPanel
         if (!team2Pane.teamIsEmpty()) {
             removeButton2.setEnabled(true);
         }
+    }
+
+    private void setButtonFalse() {
+        deleteButton.setEnabled(false);
+        addButton1.setEnabled(false);
+        addButton2.setEnabled(false);
+        removeButton1.setEnabled(false);
+        removeButton2.setEnabled(false);
     }
 
     // Create the GUI and show it.
