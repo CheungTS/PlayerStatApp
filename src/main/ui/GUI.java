@@ -19,7 +19,6 @@ import model.*;
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
 
-//TODO a visual component (displaying an image in a splash screen when your application starts)
 //TODO Add a section at the end of your README.md file
 public class GUI extends JPanel
         implements ListSelectionListener {

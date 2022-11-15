@@ -17,3 +17,12 @@ As user:
 - I want to be able to remove a player from the team.
 - I want to be able to save my teams to file.
 - I want to be able to be able to load my teams list from file.
+
+# Instructions for Grader
+
+- First, create player by enter the name of player in text field. Then Click "Create Player" button.
+- Select the player and click the corresponding button labelled "Add Player" to add player to the team1 or team2.
+- You can remove player from team by selecting the player that is shown in the list of the team, and click "Remove Player".
+- You can locate my visual component (images) by unfolding the ui folder and there is "images" folder. (Project/src/main/ui/images)
+- You can save the state of my application by clicking the "Save" button on the top left.
+- You can reload the state of my application by clicking the "Load" button on the top left.
