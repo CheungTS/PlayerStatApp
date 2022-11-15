@@ -9,9 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.*;
+
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
-//TODO load and save function/button
+
 //TODO a visual component (displaying an image in a splash screen when your application starts)
 //TODO Add a section at the end of your README.md file
 public class GUI extends JPanel
@@ -90,10 +92,10 @@ public class GUI extends JPanel
 
         saveButton = new JButton("Save");
         saveButton.setActionCommand("Save");
-        //saveButton.addActionListener(new saveListener());
+        saveButton.addActionListener(new SaveListener());
         loadButton = new JButton("Load");
         loadButton.setActionCommand("Load");
-        //loadButton.addActionListener(new loadListener());
+        loadButton.addActionListener(new LoadListener());
 
         //Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();
@@ -143,6 +145,37 @@ public class GUI extends JPanel
         add(playerPane,BorderLayout.LINE_START);
         add(teamButton, BorderLayout.CENTER);
         add(teamPane, BorderLayout.LINE_END);
+    }
+
+    class SaveListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            app.save();
+        }
+    }
+
+    class LoadListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            app.load();
+            updateGUI();
+        }
+    }
+
+    public void updateGUI() {
+        String name;
+        for (Player p: app.getPlayerList()) {
+            listModel.addElement(p.getName());
+        }
+        Team team1 = app.getTeam1();
+        Team team2 = app.getTeam2();
+        for (int i = 0; i < team1.size(); i++) {
+            name = team1.getPlayer(i).getName();
+            team1Pane.addPlayerToTeam(name);
+        }
+        for (int i = 0; i < team2.size(); i++) {
+            name = team2.getPlayer(i).getName();
+            team2Pane.addPlayerToTeam(name);
+        }
+        return;
     }
 
     class RemoveListener implements ActionListener {

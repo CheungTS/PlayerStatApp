@@ -18,15 +18,15 @@ public class GuiApp {
 
     private JsonWriter jsonWriter1;
     private JsonReader jsonReader1;
-    private static final String JSON_STORE_1 = "./data/team1.json";
+    private static final String JSON_STORE_1 = "./data/team1GUI.json";
 
     private JsonWriter jsonWriter2;
     private JsonReader jsonReader2;
-    private static final String JSON_STORE_2 = "./data/team2.json";
+    private static final String JSON_STORE_2 = "./data/team2GUI.json";
 
     private JsonWriter jsonWriterPlayer;
     private JsonReader jsonReaderPlayer;
-    private static final String JSON_STORE_Player = "./data/player.json";
+    private static final String JSON_STORE_Player = "./data/playerGUI.json";
 
     // EFFECTS: runs the application
     public GuiApp() {
@@ -172,11 +172,23 @@ public class GuiApp {
     // EFFECTS: loads team from file
     private void loadPlayers() {
         try {
-            playerList = jsonReader1.readPlayers();
+            playerList = jsonReaderPlayer.readPlayers();
             System.out.println("Loaded " + "playerList" + " from " + JSON_STORE_Player);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE_Player);
         }
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public Team getTeam1() {
+        return team1;
+    }
+
+    public Team getTeam2() {
+        return team2;
     }
 
     /*

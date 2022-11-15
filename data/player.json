@@ -7,10 +7,10 @@
         "rounds": 100
     },
     {
-        "kills": 50,
-        "damage": 50,
-        "death": 50,
+        "kills": 0,
+        "damage": 0,
+        "death": 0,
         "name": "b",
-        "rounds": 50
+        "rounds": 0
     }
 ]}

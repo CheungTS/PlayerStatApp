@@ -298,7 +298,7 @@ public class App {
     // EFFECTS: loads team from file
     private void loadPlayers() {
         try {
-            playerList = jsonReader1.readPlayers();
+            playerList = jsonReaderPlayer.readPlayers();
             System.out.println("Loaded " + "playerList" + " from " + JSON_STORE_Player);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE_Player);
