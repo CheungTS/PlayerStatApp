@@ -1,5 +1,6 @@
 package ui;
 
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,6 +9,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import model.*;
 
@@ -62,11 +67,24 @@ public class GUI extends JPanel
         createButton.setActionCommand(createPlayer);
         createButton.addActionListener(createListener);
         createButton.setEnabled(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/create.jpg"));
+            createButton.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
         deleteButton = new JButton(deletePlayer);
         deleteButton.setActionCommand(deletePlayer);
         deleteButton.addActionListener(new DeleteListener());
         deleteButton.setEnabled(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/delete.jpg"));
+            deleteButton.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
 
         playersName = new JTextField(10);
         playersName.addActionListener(createListener);
@@ -80,6 +98,13 @@ public class GUI extends JPanel
         addButton2.addActionListener(new AddListener());
         addButton1.setEnabled(false);
         addButton2.setEnabled(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/add.jpg"));
+            addButton1.setIcon(new ImageIcon(img));
+            addButton2.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
         removeButton1 = new JButton(removePlayer);
         removeButton1.setActionCommand(removePlayer);
@@ -90,12 +115,33 @@ public class GUI extends JPanel
         removeButton1.setEnabled(false);
         removeButton2.setEnabled(false);
 
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/remove.jpg"));
+            removeButton1.setIcon(new ImageIcon(img));
+            removeButton2.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
         saveButton = new JButton("Save");
         saveButton.setActionCommand("Save");
         saveButton.addActionListener(new SaveListener());
         loadButton = new JButton("Load");
         loadButton.setActionCommand("Load");
         loadButton.addActionListener(new LoadListener());
+
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/save.jpg"));
+            saveButton.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/load.jpg"));
+            loadButton.setIcon(new ImageIcon(img));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
         //Create a panel that uses BoxLayout.
         JPanel buttonPane = new JPanel();

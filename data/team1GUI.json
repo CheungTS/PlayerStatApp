@@ -1,20 +1,5 @@
 {
-    "players": [
-        {
-            "kills": 0,
-            "damage": 0,
-            "death": 0,
-            "name": "a",
-            "rounds": 0
-        },
-        {
-            "kills": 0,
-            "damage": 0,
-            "death": 0,
-            "name": "b",
-            "rounds": 0
-        }
-    ],
+    "players": [],
     "KD": 0,
     "ADR": 0
 }
