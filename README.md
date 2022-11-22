@@ -80,3 +80,11 @@ Saved
 
 Tue Nov 22 03:40:08 PST 2022
 Loaded
+
+# Phase 4: Task 3
+- If I have more time to work on the project. I will make the file path pass as parameter of read() for JsonReader 
+and open() for JsonWriter. So that the application does not need to create multiple reader and writer to save or load the file.
+- If I have more time to work on the project. I will improve the SRP by splitting up a class. For example, lots of methods
+from GUI are dealing with other things instead of GUI.
+- If I have more time to work on the project. I will improve coupling by Abstracting Duplicated Code into Methods. there are 
+lots of duplicated code in testers. 

@@ -1,6 +1,5 @@
 package ui;
 
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,10 +12,6 @@ import javax.imageio.ImageIO;
 
 import model.*;
 import model.Event;
-import model.exception.LogException;
-
-// Partially copy from The Java™ Tutorials
-// https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
 
 // This class is for constructing the GUI of the application and showing the GUI.
 public class GUI extends JPanel implements ListSelectionListener {
@@ -524,8 +519,6 @@ public class GUI extends JPanel implements ListSelectionListener {
     }
 
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();

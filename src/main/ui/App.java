@@ -9,7 +9,7 @@ import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-// Stats collection application.
+// Stats collection application that runs by console.
 public class App {
     private Team team1;
     private Team team2;
