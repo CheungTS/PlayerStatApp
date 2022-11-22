@@ -65,7 +65,7 @@ public class GuiApp {
             tmp = team2;
         }
 
-        System.out.println("Add player to team" + teamIndex);
+        //System.out.println("Add player to team" + teamIndex);
 
         for (Player p : playerList) {
             if (p.getName().equals(name)) {
@@ -90,7 +90,7 @@ public class GuiApp {
     // EFFECTS: remove player from a team
     public void removePlayerFromTeam(String name, int teamIndex) {
 
-        System.out.println("remove player from team" + teamIndex);
+        //System.out.println("remove player from team" + teamIndex);
 
         for (Player p : playerList) {
             if (p.getName().equals(name)) {
@@ -106,13 +106,13 @@ public class GuiApp {
     }
 
     public void save() {
-        System.out.println("saving");
+        //System.out.println("saving");
         savePlayers();
         saveTeams();
     }
 
     public void load() {
-        System.out.println("loading");
+        //System.out.println("loading");
         loadPlayers();
         loadTeams();
     }
@@ -123,18 +123,18 @@ public class GuiApp {
             jsonWriter1.open();
             jsonWriter1.write(team1);
             jsonWriter1.close();
-            System.out.println("Saved " + "team1" + " to " + JSON_STORE_1);
+            //System.out.println("Saved " + "team1" + " to " + JSON_STORE_1);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE_1);
+            //System.out.println("Unable to write to file: " + JSON_STORE_1);
         }
 
         try {
             jsonWriter2.open();
             jsonWriter2.write(team2);
             jsonWriter2.close();
-            System.out.println("Saved " + "team2" + " to " + JSON_STORE_2);
+            //System.out.println("Saved " + "team2" + " to " + JSON_STORE_2);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE_2);
+            //System.out.println("Unable to write to file: " + JSON_STORE_2);
         }
     }
 
@@ -143,16 +143,16 @@ public class GuiApp {
     private void loadTeams() {
         try {
             team1 = jsonReader1.read();
-            System.out.println("Loaded " + "team1" + " from " + JSON_STORE_1);
+            //System.out.println("Loaded " + "team1" + " from " + JSON_STORE_1);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE_1);
+            //System.out.println("Unable to read from file: " + JSON_STORE_1);
         }
 
         try {
             team2 = jsonReader2.read();
-            System.out.println("Loaded " + "team2" + " from " + JSON_STORE_2);
+            //System.out.println("Loaded " + "team2" + " from " + JSON_STORE_2);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE_2);
+            //System.out.println("Unable to read from file: " + JSON_STORE_2);
         }
     }
 
@@ -162,9 +162,9 @@ public class GuiApp {
             jsonWriterPlayer.open();
             jsonWriterPlayer.write(playerList);
             jsonWriterPlayer.close();
-            System.out.println("Saved " + "playerList" + " to " + JSON_STORE_Player);
+            //System.out.println("Saved " + "playerList" + " to " + JSON_STORE_Player);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE_Player);
+            //System.out.println("Unable to write to file: " + JSON_STORE_Player);
         }
     }
 
@@ -173,9 +173,9 @@ public class GuiApp {
     private void loadPlayers() {
         try {
             playerList = jsonReaderPlayer.readPlayers();
-            System.out.println("Loaded " + "playerList" + " from " + JSON_STORE_Player);
+            //System.out.println("Loaded " + "playerList" + " from " + JSON_STORE_Player);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE_Player);
+            //System.out.println("Unable to read from file: " + JSON_STORE_Player);
         }
     }
 
@@ -190,52 +190,4 @@ public class GuiApp {
     public Team getTeam2() {
         return team2;
     }
-
-    /*
-    // MODIFIES: this
-    // EFFECTS: check stats of a player or a team
-    private void checkStats() {
-        System.out.println("team or player: ");
-        String com = input.next();
-
-        if (com.equals("player")) {
-            checkPlayerStats();
-        } else if (com.equals("team")) {
-            checkTeamStats();
-        }
-    }
-
-        // MODIFIES: this
-    // EFFECTS: check stats of a player
-    private void checkPlayerStats() {
-        System.out.println("Enter the player name: ");
-        String name = input.next();
-
-        for (Player p : playerList) {
-            if (p.getName().equals(name)) {
-                System.out.println(p.getStats());
-                return;
-            }
-        }
-        System.out.println("---Player not exist---");
-    }
-
-    // MODIFIES: this
-    // EFFECTS: check stats of a team
-    private void checkTeamStats() {
-        System.out.println("Enter the team name (1 or 2): ");
-        int i = input.nextInt();
-
-        if (i == 1) {
-            System.out.println("Team ADR: " + team1.getTeamADR());
-            System.out.println("Team KD: " + team1.getTeamKD());
-        } else if (i == 2) {
-            System.out.println("Team ADR: " + team2.getTeamADR());
-            System.out.println("Team KD: " + team2.getTeamKD());
-        } else {
-            System.out.println("Team not exist");
-        }
-    }
-
-*/
 }

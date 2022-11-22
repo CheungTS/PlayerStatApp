@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 
 import model.*;
+import model.Event;
+import model.exception.LogException;
 
 // Partially copy from The Java™ Tutorials
 // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
@@ -74,6 +76,7 @@ public class GUI extends JPanel implements ListSelectionListener {
         savePane.setLayout(new BoxLayout(savePane,BoxLayout.X_AXIS));
         savePane.add(saveButton);
         savePane.add(loadButton);
+        savePane.add(new JButton(new PrintLogAction()));
 
         add(savePane, BorderLayout.PAGE_START);
         add(playerPane,BorderLayout.LINE_START);
@@ -225,14 +228,17 @@ public class GUI extends JPanel implements ListSelectionListener {
         teamPane.add(team2Pane);
     }
 
+    // Listeners to buttons
     class SaveListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            EventLog.getInstance().logEvent(new Event("Saved"));
             app.save();
         }
     }
 
     class LoadListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            EventLog.getInstance().logEvent(new Event("Loaded"));
             app.load();
             updateGUI();
         }
@@ -263,9 +269,11 @@ public class GUI extends JPanel implements ListSelectionListener {
             if (e.getSource() == removeButton1) {
                 name = team1Pane.removePlayerFromTeam();
                 app.removePlayerFromTeam(name,1);
+                EventLog.getInstance().logEvent(new Event("Removed player: " + name + " from team 1"));
             } else {
                 name = team2Pane.removePlayerFromTeam();
                 app.removePlayerFromTeam(name,2);
+                EventLog.getInstance().logEvent(new Event("Removed player: " + name + " from team 2"));
             }
 
             if (team1Pane.teamIsEmpty()) {
@@ -274,6 +282,7 @@ public class GUI extends JPanel implements ListSelectionListener {
             if (team2Pane.teamIsEmpty()) {
                 removeButton2.setEnabled(false);
             }
+
         }
     }
 
@@ -281,6 +290,7 @@ public class GUI extends JPanel implements ListSelectionListener {
         public void actionPerformed(ActionEvent e) {
 
             String name = (String)list.getSelectedValue();
+
             if (e.getSource() == addButton1) {
                 app.addPlayerToTeam(name,1);
                 team1Pane.addPlayerToTeam(name);
@@ -288,6 +298,7 @@ public class GUI extends JPanel implements ListSelectionListener {
                 if (team1Pane.teamIsFull()) {
                     addButton1.setEnabled(false);
                 }
+                EventLog.getInstance().logEvent(new Event("Add player: " + name + " to team 1."));
             } else {
                 app.addPlayerToTeam(name,2);
                 team2Pane.addPlayerToTeam(name);
@@ -295,17 +306,16 @@ public class GUI extends JPanel implements ListSelectionListener {
                 if (team2Pane.teamIsFull()) {
                     addButton2.setEnabled(false);
                 }
+                EventLog.getInstance().logEvent(new Event("Add player: " + name + " to team 2."));
             }
         }
     }
 
     class DeleteListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            //This method can be called only if
-            //there's a valid selection
-            //so go ahead and remove whatever's selected.
 
             String name = (String)list.getSelectedValue();
+            EventLog.getInstance().logEvent(new Event("Delete player: " + name));
             app.removePlayer(name);
 
             int index = list.getSelectedIndex();
@@ -330,7 +340,7 @@ public class GUI extends JPanel implements ListSelectionListener {
         }
     }
 
-    //This listener is shared by the text field and the hire button.
+    //This listener is shared by the text field and the create button.
     class CreateListener implements ActionListener, DocumentListener {
         private boolean alreadyEnabled = false;
         private JButton button;
@@ -342,6 +352,8 @@ public class GUI extends JPanel implements ListSelectionListener {
         //Required by ActionListener.
         public void actionPerformed(ActionEvent e) {
             String name = playersName.getText();
+
+            EventLog.getInstance().logEvent(new Event("Create player: " + name));
 
             //User didn't type in a unique name...
             if (name.equals("") || alreadyInList(name)) {
@@ -374,9 +386,8 @@ public class GUI extends JPanel implements ListSelectionListener {
             list.ensureIndexIsVisible(index);
         }
 
-        //This method tests for string equality. You could certainly
-        //get more sophisticated about the algorithm.  For example,
-        //you might want to ignore white space and capitalization.
+        // Check if the name is already exist.
+        // Return true if already exist.
         protected boolean alreadyInList(String name) {
             return listModel.contains(name);
         }
@@ -411,6 +422,35 @@ public class GUI extends JPanel implements ListSelectionListener {
                 return true;
             }
             return false;
+        }
+    }
+
+    private class PrintLogAction extends AbstractAction {
+        PrintLogAction() {
+            super("Print log");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+
+            JFrame printFrame = new JFrame("Event Log");
+            printFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            printFrame.setLayout(new BorderLayout());
+            printFrame.setSize(600,600);
+
+            ScreenPrinter lp = new ScreenPrinter();
+            lp.printLog(EventLog.getInstance());
+
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(e -> {
+                printFrame.setVisible(false);
+            });
+
+            printFrame.add(lp, BorderLayout.CENTER);
+            printFrame.add(closeButton, BorderLayout.PAGE_END);
+
+            printFrame.pack();
+            printFrame.setVisible(true);
         }
     }
 
@@ -453,8 +493,8 @@ public class GUI extends JPanel implements ListSelectionListener {
     // Create the GUI and show it.
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("ListDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame("Collection App");
+
 
         //Create and set up the content pane.
         JComponent newContentPane = new GUI();
@@ -464,6 +504,23 @@ public class GUI extends JPanel implements ListSelectionListener {
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+
+        // Output logs to console when app is closed
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                outputLogs();
+                System.exit(0);
+            }
+        });
+    }
+
+    // Output logs to console
+    public static void outputLogs() {
+        for (Event next : EventLog.getInstance()) {
+            System.out.println(next.toString() + "\n\n");
+        }
     }
 
     public static void main(String[] args) {
@@ -475,5 +532,4 @@ public class GUI extends JPanel implements ListSelectionListener {
             }
         });
     }
-
 }
